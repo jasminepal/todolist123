@@ -1,4 +1,4 @@
 class Todoing < ApplicationRecord
-    attr_accessor :task
+    # attr_accessor :task
   end
   
