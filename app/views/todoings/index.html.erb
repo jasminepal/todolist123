@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-right: none;
+      border-radius: 3px 0 0 3px;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      background-color: #4CAF50;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 0 3px 3px 0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #f2f2f2;
+      border-radius: 3px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    li span {
+      flex: 1;
+    }
+
+    li button {
+      padding: 5px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    li button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Todo List</h1>
+    <%= form_with(model: Todoing.new, url: todoings_path, local: true) do |form| %>
+      <%= form.text_field :task, placeholder: "Enter your task here", required: true %>
+      <%= form.submit "Add" %>
+    <% end %>
+    <ul id="todoList">
+      <% @todoings.each do |todoing_task| %>
+        <li>
+          <span><%= todoing_task.task %></span>
+          <%= form_for(todoing_task, :html => { :method => :delete, :remote => true }) do |f| %>
+            <%= f.submit :value => "Delete" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</body>
+</html>
