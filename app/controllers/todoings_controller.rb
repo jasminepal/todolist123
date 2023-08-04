@@ -1,6 +1,7 @@
 class TodoingsController < ApplicationController
+before_action :set_todoing, only: [:show, :edit, :update, :destroy]
     def index
-      @todoings = Todoing.all
+      @todoings = current_user.Todoings.all
     end
   
     def show
@@ -8,11 +9,11 @@ class TodoingsController < ApplicationController
     end
   
     def new
-      @todoing = Todoing.new
+      @todoing = current_user.Todoing.build
     end
   
     def create
-      @todoing = Todoing.new(todoing_params)
+      @todoing = current_user.Todoing.build(todoing_params)
       if @todoing.save
         redirect_to todoings_path, notice: 'Task successfully created!'
       else
@@ -20,7 +21,13 @@ class TodoingsController < ApplicationController
       end
     end
   
-    def update; end
+    def update
+      if @todoing.update(todoing_params)
+        redirect_to todoing_path(@todoing)
+      else
+        render :edit
+      end
+    end
   
     def destroy
       @todoing = Todoing.find(params[:id])
