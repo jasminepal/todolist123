@@ -1,7 +1,8 @@
 class TodoingsController < ApplicationController
-before_action :set_todoing, only: [:show, :edit, :update, :destroy]
+# before_action :set_todoing, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_user!
     def index
-      @todoings = current_user.Todoings.all
+      @todoings = current_user.todoings.all
     end
   
     def show
@@ -9,11 +10,11 @@ before_action :set_todoing, only: [:show, :edit, :update, :destroy]
     end
   
     def new
-      @todoing = current_user.Todoing.build
+      @todoing = current_user.todoings.build
     end
   
     def create
-      @todoing = current_user.Todoing.build(todoing_params)
+      @todoing = current_user.todoings.build(todoing_params)
       if @todoing.save
         redirect_to todoings_path, notice: 'Task successfully created!'
       else
